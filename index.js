@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
 
     res.end('Hello World\n');
 
-    console.log(`Request received on ${trimmedPath}`)
+    console.log(`Request received on path: ${trimmedPath}`)
 });
 
 server.listen(3000, () => {
