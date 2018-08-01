@@ -30,11 +30,11 @@ const server = http.createServer((req, res) => {
             : handlers.notFound;
         
         const data = {
-            'trimmedPath': trimmedPath,
-            'queryStringObject': queryStringObject,
-            'method': method,
-            'headers': headers,
-            'payload': buffer,
+            trimmedPath,
+            queryStringObject,
+            method,
+            headers,
+            payload: buffer,
         };
 
         chosenHandler(data, (statusCode, payload) => {
