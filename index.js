@@ -77,6 +77,10 @@ const unifiedServer = (req, res) => {
 
 const handlers = {};
 
+handlers.ping = (data, callback) => {
+    callback(200);
+}
+
 handlers.sample = (data, callback) => {
     callback(406, {'name': 'sample handler'});
 };
