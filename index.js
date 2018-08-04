@@ -1,9 +1,32 @@
 const http = require('http');
+const https = require('https');
 const url = require('url');
+const fs = require('fs');
 const { StringDecoder } = require('string_decoder');
 const config = require('./config');
 
-const server = http.createServer((req, res) => {
+const httpServer = http.createServer((req, res) => {
+    unifiedServer(req, res);
+});
+
+httpServer.listen(config.httpPort, () => {
+    console.log(`${config.envName.toUpperCase()} Server listening on port ${config.httpPort}`);
+});
+
+const httpsServerOptions = {
+    key: fs.readFileSync('./https/key.pem'),
+    cert: fs.readFileSync('./https/cert.pem'),
+};
+
+const httpsServer = https.createServer(httpsServerOptions, (req, res) => {
+    unifiedServer(req, res);
+});
+
+httpsServer.listen(config.httpsPort, () => {
+    console.log(`${config.envName.toUpperCase()} Server listening on port ${config.httpsPort}`);
+});
+
+const unifiedServer = (req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const path = parsedUrl.pathname;
     const headers = req.headers;
@@ -48,14 +71,9 @@ const server = http.createServer((req, res) => {
             res.end(payloadString);
 
             console.log(`Response: ${statusCode} ${payloadString}`);
-        });
-        
+        });        
     });
-});
-
-server.listen(config.port, () => {
-    console.log(`${config.envName.toUpperCase()} Server listening on port ${config.port}`);
-});
+};
 
 const handlers = {};
 
