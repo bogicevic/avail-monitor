@@ -1,2 +1,4 @@
 node_modules
 https
+.data/test/*.json
+.data/users/*.json

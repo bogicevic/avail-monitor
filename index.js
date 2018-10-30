@@ -6,6 +6,7 @@ const { StringDecoder } = require('string_decoder');
 const config = require('./config');
 const _data = require('./lib/data');
 const handlers = require('./lib/handlers');
+const helpers = require('./lib/helpers');
 
 // Just testing
 // _data.create('test', 'newFile', { 'rudi': 'cajavec' }, (err) => {
@@ -16,7 +17,7 @@ const handlers = require('./lib/handlers');
 //     ? console.log(err)
 //     : console.log('this is the data: ', data);  
 // });
-// _data.update('test', 'newFile', {'djordje': 'kluz'}, (err) => {
+// _data.update('test', 'newFile', {'franjo': 'kluz'}, (err) => {
 //   console.log(err);
 // });
 // _data.delete('test', 'newFile', (err) => {
@@ -76,7 +77,7 @@ const unifiedServer = (req, res) => {
       queryStringObject,
       method,
       headers,
-      payload: buffer,
+      payload: helpers.parseJsonToObject(buffer),
     };
 
     chosenHandler(data, (statusCode, payload) => {
@@ -96,4 +97,5 @@ const unifiedServer = (req, res) => {
 const router = {
   'sample': handlers.sample,
   'ping': handlers.ping,
+  'users': handlers.users
 };
